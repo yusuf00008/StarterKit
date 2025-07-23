@@ -58,3 +58,12 @@ for name, model in models.items():
 st.write("### 🧪 Сравнение моделей по точности")
 st.table(pd.DataFrame(results))
 
+
+st.sidebar.header("🔍 Предсказание по параметрам")
+island_input = st.sidebar.selectbox("Остров", df['island'].unique())
+sex_input = st.sidebar.selectbox("Пол", df['sex'].unique())
+bill_length = st.sidebar.slider("Длина клюва (мм)", float(df['bill_length_mm'].min()), float(df['bill_length_mm'].max()), float(df['bill_length_mm'].mean()))
+bill_depth = st.sidebar.slider("Глубина клюва (мм)", float(df['bill_depth_mm'].min()), float(df['bill_depth_mm'].max()), float(df['bill_depth_mm'].mean()))
+flipper_length = st.sidebar.slider("Длина крыла (мм)", float(df['flipper_length_mm'].min()), float(df['flipper_length_mm'].max()), float(df['flipper_length_mm'].mean()))
+body_mass = st.sidebar.slider("Масса тела (г)", float(df['body_mass_g'].min()), float(df['body_mass_g'].max()), float(df['body_mass_g'].mean()))
+
