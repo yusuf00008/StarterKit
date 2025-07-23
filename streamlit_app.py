@@ -15,6 +15,6 @@ st.write('## Работа с датасетом пингвинов')
 df = pd.read_csv("https://raw.githubusercontent.com/dataprofessor/data/master/penguins_cleaned.csv")
 
 st.subheader('Случайные 10 срок')
-st.dataframe(df.sample(10), use_containter_width = True)
+st.dataframe(df.sample(10), use_container_width = True)
 
 
