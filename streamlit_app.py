@@ -104,35 +104,35 @@ from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder
 import plotly.express as px
 
-# Page setup
+
 st.set_page_config(page_title="Titanic Survival Predictor", layout="wide")
 
 st.title("🚢 Titanic Survival Predictor")
 st.write("Predict if a passenger would survive the Titanic disaster using RandomForest!")
 
-# Load data
+
 @st.cache_data
 def load_data():
     url = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
     df = pd.read_csv(url)
     return df
 
-# Simple data preprocessing
+
 @st.cache_data
 def preprocess_data(df):
     data = df.copy()
     
-    # Fill missing values
+    # Filling missing val
     data['Age'].fillna(data['Age'].median(), inplace=True)
     data['Embarked'].fillna(data['Embarked'].mode()[0], inplace=True)
     data['Fare'].fillna(data['Fare'].median(), inplace=True)
     
-    # Create family size feature
+    # Creating family size feature
     data['FamilySize'] = data['SibSp'] + data['Parch'] + 1
     
     return data
 
-# Load and preprocess data
+
 df_raw = load_data()
 df = preprocess_data(df_raw)
 
@@ -146,11 +146,11 @@ with col2:
 with col3:
     st.metric("Survival Rate", f"{df['Survived'].mean():.1%}")
 
-# Show sample data
+
 st.subheader("Sample Data")
 st.dataframe(df.head(10))
 
-# Data visualization - IMPROVEMENT 1 (+10 points)
+
 st.header("📈 Data Analysis")
 
 col1, col2 = st.columns(2)
@@ -174,7 +174,7 @@ fig3 = px.histogram(df, x='Age', color='Survived',
                    title="Age Distribution by Survival")
 st.plotly_chart(fig3, use_container_width=True)
 
-# IMPROVEMENT 2: Hyperparameter tuning (+10 points)
+#Hyperparameter tun
 st.header("🤖 Model Configuration")
 st.write("Adjust RandomForest parameters:")
 
@@ -191,17 +191,17 @@ features = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked', 'Famil
 X = df[features].copy()
 y = df['Survived']
 
-# Encode categorical variables
+# Encoding categorial vars
 le_sex = LabelEncoder()
 le_embarked = LabelEncoder()
 
 X['Sex'] = le_sex.fit_transform(X['Sex'])
 X['Embarked'] = le_embarked.fit_transform(X['Embarked'])
 
-# Split data
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train RandomForest model with user parameters
+# Train RandomForest model with user selected paramrs
 st.subheader("Training RandomForest Model...")
 
 rf_model = RandomForestClassifier(
@@ -212,14 +212,14 @@ rf_model = RandomForestClassifier(
     random_state=42
 )
 
-# Train model
+
 rf_model.fit(X_train, y_train)
 
-# Make predictions
+
 train_pred = rf_model.predict(X_train)
 test_pred = rf_model.predict(X_test)
 
-# Calculate accuracy
+
 train_acc = accuracy_score(y_train, train_pred)
 test_acc = accuracy_score(y_test, test_pred)
 
@@ -241,7 +241,7 @@ fig4 = px.bar(importance_df, x='Importance', y='Feature',
               orientation='h', title="Which features are most important?")
 st.plotly_chart(fig4, use_container_width=True)
 
-# IMPROVEMENT 3: Interactive prediction interface (+10 points)
+#Interactive prediction
 st.header("🎯 Make a Prediction")
 st.write("Enter passenger details to predict survival:")
 
@@ -287,7 +287,7 @@ input_data = pd.DataFrame({
 prediction = rf_model.predict(input_data)[0]
 probability = rf_model.predict_proba(input_data)[0]
 
-# Show prediction with nice formatting
+
 st.subheader("Prediction Result")
 
 if prediction == 1:
@@ -302,6 +302,8 @@ prob_df = pd.DataFrame({
     'Probability': [f"{probability[0]:.1%}", f"{probability[1]:.1%}"]
 })
 st.dataframe(prob_df, use_container_width=True)
+
+#INFO JUST FOR INTEREST
 
 # Additional insights
 st.write("---")
