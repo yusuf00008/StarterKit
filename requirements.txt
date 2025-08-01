@@ -1,6 +1,7 @@
-streamlit>=1.26.0
+streamlit
 pandas
-plotly
-category_encoders
-scikit-learn
 numpy
+scikit-learn
+plotly
+seaborn
+matplotlib
